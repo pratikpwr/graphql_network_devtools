@@ -5,7 +5,7 @@
   "packages": [
     {
       "name": "graphql_network_devtools",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "dependencies": [
         "devtools_app_shared",
         "devtools_extensions",
