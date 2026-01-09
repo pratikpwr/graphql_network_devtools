@@ -1,0 +1,33 @@
+name: graphql_network_devtools
+description: A Flutter DevTools extension for GraphQL network inspection. View GraphQL operations with operation names, search, and filtering.
+version: 0.1.0
+homepage: https://github.com/pratikpwr/graphql_network_devtools
+repository: https://github.com/pratikpwr/graphql_network_devtools
+issue_tracker: https://github.com/pratikpwr/graphql_network_devtools/issues
+
+topics:
+  - graphql
+  - devtools
+  - network
+  - debugging
+  - flutter
+
+environment:
+  sdk: ^3.10.4
+  flutter: ">=3.16.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  devtools_extensions: ^0.3.0
+  devtools_app_shared: ^0.3.0
+  vm_service: ^15.0.0
+  url_launcher: ^6.3.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
