@@ -1,0 +1,1 @@
+ D:\\dev\\Projects\\graphql_network_devtools\\build\\web\\manifest.json:  D:\\dev\\Projects\\graphql_network_devtools\\web\\index.html D:\\dev\\Projects\\graphql_network_devtools\\web\\manifest.json

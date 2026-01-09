@@ -1,0 +1,32 @@
+# Build artifacts (root level only, not extension/devtools/build)
+/build/
+.dart_tool/
+
+# IDE
+.idea/
+*.iml
+
+# Flutter generated files
+.flutter-plugins
+.flutter-plugins-dependencies
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Test and coverage
+coverage/
+.test_runner/
+
+# Web debug builds
+/web/
+
+# Git
+.git/
+.gitignore
+
+# Exclude CanvasKit from extension (too large for pub.dev)
+extension/devtools/build/canvaskit/
+
+# Exclude skwasm files (also large)
+extension/devtools/build/*.symbols
