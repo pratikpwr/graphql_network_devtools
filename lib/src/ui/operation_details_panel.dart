@@ -5,6 +5,13 @@ import 'package:flutter/services.dart';
 
 import '../models/graphql_operation.dart';
 
+/// Get responsive font size based on screen metrics
+double _getResponsiveFontSize(BuildContext context, double baseSize) {
+  final mediaQuery = MediaQuery.of(context);
+  final textScaleFactor = mediaQuery.textScaleFactor;
+  return baseSize * textScaleFactor;
+}
+
 /// Panel showing details of a selected GraphQL operation.
 class OperationDetailsPanel extends StatefulWidget {
   final GraphQLOperation operation;
@@ -535,6 +542,16 @@ class _SearchableCodeViewState extends State<_SearchableCodeView> {
     });
   }
 
+  void _copyToClipboard() {
+    Clipboard.setData(ClipboardData(text: widget.code));
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Copied to clipboard'),
+        duration: Duration(seconds: 2),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -553,7 +570,7 @@ class _SearchableCodeViewState extends State<_SearchableCodeView> {
                     controller: _searchController,
                     focusNode: _searchFocusNode,
                     onChanged: _onSearchChanged,
-                    style: const TextStyle(fontSize: 13),
+                    style: TextStyle(fontSize: _getResponsiveFontSize(context, 13)),
                     decoration: InputDecoration(
                       hintText: 'Search...',
                       hintStyle: TextStyle(
@@ -632,52 +649,65 @@ class _SearchableCodeViewState extends State<_SearchableCodeView> {
               ],
             ),
           ),
-        // Code view
+        // Code view with keyboard shortcut support
         Expanded(
-          child: Stack(
-            children: [
-              Container(
-                width: double.infinity,
-                color: theme.colorScheme.surfaceContainerHighest.withValues(
-                  alpha: 0.3,
+          child: Focus(
+            onKey: (node, event) {
+              // Handle Ctrl+C / Cmd+C for copy
+              if (event.isKeyPressed(LogicalKeyboardKey.keyC)) {
+                final isCtrlOrCmd = event.isControlPressed || event.isMetaPressed;
+                if (isCtrlOrCmd) {
+                  _copyToClipboard();
+                  return KeyEventResult.handled;
+                }
+              }
+              // Handle Ctrl+F / Cmd+F for search
+              if (event.isKeyPressed(LogicalKeyboardKey.keyF)) {
+                final isCtrlOrCmd = event.isControlPressed || event.isMetaPressed;
+                if (isCtrlOrCmd) {
+                  _toggleSearch();
+                  return KeyEventResult.handled;
+                }
+              }
+              return KeyEventResult.ignored;
+            },
+            child: Stack(
+              children: [
+                Container(
+                  width: double.infinity,
+                  color: theme.colorScheme.surfaceContainerHighest.withValues(
+                    alpha: 0.3,
+                  ),
+                  child: SingleChildScrollView(
+                    controller: _scrollController,
+                    padding: const EdgeInsets.all(12),
+                    child: _buildHighlightedText(theme),
+                  ),
                 ),
-                child: SingleChildScrollView(
-                  controller: _scrollController,
-                  padding: const EdgeInsets.all(12),
-                  child: _buildHighlightedText(theme),
+                // Toolbar buttons
+                Positioned(
+                  top: 4,
+                  right: 4,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      _ToolbarButton(
+                        icon: Icons.search,
+                        tooltip: 'Search (Ctrl+F)',
+                        isActive: _isSearchVisible,
+                        onPressed: _toggleSearch,
+                      ),
+                      const SizedBox(width: 4),
+                      _ToolbarButton(
+                        icon: Icons.copy,
+                        tooltip: 'Copy to clipboard (Ctrl+C)',
+                        onPressed: _copyToClipboard,
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              // Toolbar buttons
-              Positioned(
-                top: 4,
-                right: 4,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    _ToolbarButton(
-                      icon: Icons.search,
-                      tooltip: 'Search (Ctrl+F)',
-                      isActive: _isSearchVisible,
-                      onPressed: _toggleSearch,
-                    ),
-                    const SizedBox(width: 4),
-                    _ToolbarButton(
-                      icon: Icons.copy,
-                      tooltip: 'Copy to clipboard',
-                      onPressed: () {
-                        Clipboard.setData(ClipboardData(text: widget.code));
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Copied to clipboard'),
-                            duration: Duration(seconds: 2),
-                          ),
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ],
@@ -685,12 +715,14 @@ class _SearchableCodeViewState extends State<_SearchableCodeView> {
   }
 
   Widget _buildHighlightedText(ThemeData theme) {
+    final fontSize = _getResponsiveFontSize(context, 12);
+
     if (_searchQuery.isEmpty || _matchPositions.isEmpty) {
       return SelectableText(
         widget.code,
         style: TextStyle(
           fontFamily: 'monospace',
-          fontSize: 12,
+          fontSize: fontSize,
           color: theme.colorScheme.onSurface,
         ),
       );
@@ -736,7 +768,7 @@ class _SearchableCodeViewState extends State<_SearchableCodeView> {
       TextSpan(
         style: TextStyle(
           fontFamily: 'monospace',
-          fontSize: 12,
+          fontSize: fontSize,
           color: theme.colorScheme.onSurface,
         ),
         children: spans,
