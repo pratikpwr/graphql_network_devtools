@@ -1,6 +1,5 @@
-name: graphql_network
-issueTracker: https://github.com/user/graphql_network_devtools/issues
-version: 0.1.1
-materialIconCodePoint: '0xe0c8'
+name: graphql_network_devtools
+issueTracker: https://github.com/pratikpwr/graphql_network_devtools/issues
+version: 0.2.0
+materialIconCodePoint: '0xf051d'
 requiresConnection: true
-

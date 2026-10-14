@@ -1,0 +1,24 @@
+name: graphql_network_devtools_example
+description: Example app for graphql_network_devtools. It sends GraphQL requests to public APIs.
+publish_to: none
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.10.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  http: ^1.6.0
+
+dev_dependencies:
+  flutter_lints: ^6.0.0
+  flutter_test:
+    sdk: flutter
+  # Adds the GraphQL tab to DevTools. In your app, use:
+  # graphql_network_devtools: ^0.2.0
+  graphql_network_devtools:
+    path: ../
+
+flutter:
+  uses-material-design: true

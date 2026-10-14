@@ -1,1 +1,0 @@
- /Users/pratikpawar/dev/SpringCare/graphql_network_devtools/build/web/manifest.json:  /Users/pratikpawar/dev/SpringCare/graphql_network_devtools/web/index.html /Users/pratikpawar/dev/SpringCare/graphql_network_devtools/web/manifest.json

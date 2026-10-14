@@ -1,0 +1,28 @@
+name: graphql_network_devtools_extension
+description: >-
+  Source code of the GraphQL Network DevTools extension. The compiled output
+  goes to ../extension/devtools/build. This package is not published.
+publish_to: none
+version: 0.2.0
+
+environment:
+  sdk: ^3.10.0
+  flutter: ">=3.38.0"
+
+dependencies:
+  devtools_app_shared: ^0.5.1
+  devtools_extensions: ^0.5.1
+  flutter:
+    sdk: flutter
+  graphql_network_devtools:
+    path: ../
+  vm_service: ^15.0.0
+  web: ^1.1.0
+
+dev_dependencies:
+  flutter_lints: ^6.0.0
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
