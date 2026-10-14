@@ -285,7 +285,7 @@ class _CodeViewState extends State<CodeView> {
       padding: const EdgeInsets.fromLTRB(8, 6, 4, 6),
       decoration: BoxDecoration(
         color: theme.colorScheme.surfaceContainer,
-        border: Border(bottom: BorderSide(color: theme.dividerColor)),
+        border: Border(bottom: borderSide(theme)),
       ),
       child: Row(
         children: [

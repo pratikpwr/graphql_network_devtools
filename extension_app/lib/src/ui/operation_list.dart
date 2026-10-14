@@ -131,7 +131,7 @@ class _OperationRow extends StatelessWidget {
                     : Colors.transparent,
               ),
               bottom: BorderSide(
-                color: theme.dividerColor.withValues(alpha: 0.5),
+                color: borderColor(theme).withValues(alpha: 0.7),
               ),
             ),
           ),

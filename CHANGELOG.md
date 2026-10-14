@@ -21,6 +21,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Pause recording.
 - Keyboard navigation: Up and Down in the list, Ctrl/Cmd + F to search.
 - Resizable split view, which changes to a vertical layout in narrow windows.
+- The operation list and the details show in outlined panels, with visible
+  lines between the header, the tabs and each section.
 - Support for batched operations, automatic persisted queries, `GET` requests,
   `application/graphql` bodies and multipart file uploads.
 - Failed requests (for example a failed host lookup) to GraphQL URLs now show
@@ -44,6 +46,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Requests were found only for some URL patterns. Detection now reads the
   request body, so any GraphQL endpoint works.
 - Code text did not use a monospace font.
+- Lines between views were invisible, because the DevTools theme makes
+  `dividerColor` transparent. All lines now use the `outlineVariant` color.
 - The extension loaded all request bodies on each poll. It now loads only new
   and changed requests.
 

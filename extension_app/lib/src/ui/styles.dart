@@ -14,9 +14,24 @@ abstract final class FontSizes {
 const codeFontFamily = 'RobotoMono';
 
 /// Returns [base] with the font sizes of the extension.
+/// The color of all lines and outlines in the extension.
+///
+/// The DevTools theme sets `dividerColor` to transparent, so the extension
+/// uses `outlineVariant`, which is visible in light and dark themes.
+Color borderColor(ThemeData theme) => theme.colorScheme.outlineVariant;
+
+BorderSide borderSide(ThemeData theme) => BorderSide(color: borderColor(theme));
+
 ThemeData extensionTheme(ThemeData base) {
   final text = base.textTheme;
+  final border = borderColor(base);
   return base.copyWith(
+    dividerColor: border,
+    dividerTheme: base.dividerTheme.copyWith(
+      color: border,
+      thickness: 1,
+      space: 1,
+    ),
     textTheme: text.copyWith(
       titleMedium: text.titleMedium?.copyWith(
         fontSize: FontSizes.title,

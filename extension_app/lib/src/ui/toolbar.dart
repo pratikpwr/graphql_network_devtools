@@ -29,7 +29,7 @@ class Toolbar extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: theme.colorScheme.surfaceContainerLow,
-        border: Border(bottom: BorderSide(color: theme.dividerColor)),
+        border: Border(bottom: borderSide(theme)),
       ),
       padding: const EdgeInsets.fromLTRB(12, 6, 8, 8),
       child: Column(
@@ -243,7 +243,7 @@ class _FilterChip extends StatelessWidget {
       checkmarkColor: color,
       selectedColor: color.withValues(alpha: 0.16),
       side: BorderSide(
-        color: selected ? color.withValues(alpha: 0.6) : theme.dividerColor,
+        color: selected ? color.withValues(alpha: 0.6) : borderColor(theme),
       ),
       visualDensity: VisualDensity.compact,
       onSelected: onSelected,
@@ -263,7 +263,7 @@ class _ZoomControls extends StatelessWidget {
       valueListenable: zoom,
       builder: (context, _, _) => Container(
         decoration: BoxDecoration(
-          border: Border.all(color: theme.dividerColor),
+          border: Border.all(color: borderColor(theme)),
           borderRadius: BorderRadius.circular(6),
         ),
         child: Row(

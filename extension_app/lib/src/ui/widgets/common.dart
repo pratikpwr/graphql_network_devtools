@@ -325,6 +325,7 @@ class SectionBar extends StatelessWidget {
     this.subtitle,
     this.leading,
     this.actions = const [],
+    this.showTopBorder = false,
   });
 
   final String title;
@@ -334,6 +335,9 @@ class SectionBar extends StatelessWidget {
   final Widget? leading;
   final List<Widget> actions;
 
+  /// Draws a line above the bar, to separate it from content above.
+  final bool showTopBorder;
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -342,33 +346,75 @@ class SectionBar extends StatelessWidget {
       padding: EdgeInsets.only(left: leading == null ? 12 : 8, right: 4),
       decoration: BoxDecoration(
         color: theme.colorScheme.surfaceContainerLow,
-        border: Border(bottom: BorderSide(color: theme.dividerColor)),
+        border: Border(
+          top: showTopBorder ? borderSide(theme) : BorderSide.none,
+          bottom: borderSide(theme),
+        ),
       ),
       child: Row(
         children: [
-          leading ??
-              Text(
-                title,
-                style: theme.textTheme.labelLarge?.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-          if (subtitle != null) ...[
-            const SizedBox(width: 8),
-            Flexible(
-              child: Text(
-                subtitle!,
-                overflow: TextOverflow.ellipsis,
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.onSurfaceVariant,
-                ),
-              ),
+          // The title side takes all free space, so the actions stay at the
+          // right edge.
+          Expanded(
+            child: Row(
+              children: [
+                leading ??
+                    Text(
+                      title,
+                      style: theme.textTheme.labelLarge?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                if (subtitle != null) ...[
+                  const SizedBox(width: 8),
+                  Flexible(
+                    child: Text(
+                      subtitle!,
+                      overflow: TextOverflow.ellipsis,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ),
+                ],
+              ],
             ),
-          ],
-          const Spacer(),
+          ),
           ...actions,
         ],
       ),
+    );
+  }
+}
+
+/// An outlined box with rounded corners around one area of the screen, the
+/// same way DevTools draws its own panes. An optional [header] shows above
+/// [child], with a line between them.
+class Panel extends StatelessWidget {
+  const Panel({super.key, required this.child, this.header});
+
+  final Widget child;
+  final Widget? header;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Container(
+      clipBehavior: Clip.antiAlias,
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surface,
+        border: Border.all(color: borderColor(theme)),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: header == null
+          ? child
+          : Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                header!,
+                Expanded(child: child),
+              ],
+            ),
     );
   }
 }

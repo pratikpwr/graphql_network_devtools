@@ -193,12 +193,26 @@ class _NetworkBodyState extends State<_NetworkBody> {
     return LayoutBuilder(
       builder: (context, constraints) {
         final horizontal = constraints.maxWidth >= 720;
-        return SplitPane(
-          key: ValueKey(horizontal),
-          axis: horizontal ? Axis.horizontal : Axis.vertical,
-          initialFractions: horizontal ? const [0.36, 0.64] : const [0.4, 0.6],
-          minSizes: horizontal ? const [260, 360] : const [120, 200],
-          children: [list, details],
+        return Padding(
+          padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
+          child: SplitPane(
+            key: ValueKey(horizontal),
+            axis: horizontal ? Axis.horizontal : Axis.vertical,
+            initialFractions: horizontal
+                ? const [0.36, 0.64]
+                : const [0.4, 0.6],
+            minSizes: horizontal ? const [260, 360] : const [120, 200],
+            children: [
+              Panel(
+                header: SectionBar(
+                  title: 'Operations',
+                  subtitle: 'Newest first',
+                ),
+                child: list,
+              ),
+              Panel(child: details),
+            ],
+          ),
         );
       },
     );

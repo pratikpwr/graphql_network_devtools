@@ -49,7 +49,7 @@ class _DetailsPanelState extends State<DetailsPanel>
         _Header(operation: operation),
         Container(
           decoration: BoxDecoration(
-            border: Border(bottom: BorderSide(color: theme.dividerColor)),
+            border: Border(top: borderSide(theme), bottom: borderSide(theme)),
           ),
           child: TabBar(
             controller: _tabs,
@@ -494,6 +494,7 @@ class _HeadersTab extends StatelessWidget {
             headers: transaction.requestHeaders,
           ),
           _HeaderSection(
+            showTopBorder: true,
             title: 'Response headers',
             headers: transaction.responseHeaders,
           ),
@@ -504,10 +505,15 @@ class _HeadersTab extends StatelessWidget {
 }
 
 class _HeaderSection extends StatelessWidget {
-  const _HeaderSection({required this.title, required this.headers});
+  const _HeaderSection({
+    required this.title,
+    required this.headers,
+    this.showTopBorder = false,
+  });
 
   final String title;
   final Map<String, String> headers;
+  final bool showTopBorder;
 
   @override
   Widget build(BuildContext context) {
@@ -520,6 +526,7 @@ class _HeaderSection extends StatelessWidget {
       children: [
         SelectionContainer.disabled(
           child: SectionBar(
+            showTopBorder: showTopBorder,
             title: title,
             subtitle: '${entries.length}',
             actions: [
