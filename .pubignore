@@ -1,32 +1,29 @@
-# Build artifacts (root level only, not extension/devtools/build)
-/build/
-.dart_tool/
+# Source of the extension web app. Its compiled output is published in
+# extension/devtools/build.
+extension_app/
 
-# IDE
+# Build artifacts at the root only. extension/devtools/build is published.
+/build/
+example/build/
+.dart_tool/
+pubspec.lock
+
+# IDE and OS files
 .idea/
+.vscode/
 *.iml
+.DS_Store
 
 # Flutter generated files
 .flutter-plugins
 .flutter-plugins-dependencies
+.metadata
 
-# OS files
-.DS_Store
-Thumbs.db
-
-# Test and coverage
+# Repository tooling
+.github/
+tool/
 coverage/
-.test_runner/
 
-# Web debug builds
-/web/
-
-# Git
-.git/
-.gitignore
-
-# Exclude CanvasKit from extension (too large for pub.dev)
+# CanvasKit is large. Flutter web loads it from the gstatic CDN at runtime.
 extension/devtools/build/canvaskit/
-
-# Exclude skwasm files (also large)
-extension/devtools/build/*.symbols
+extension/devtools/build/**/*.symbols

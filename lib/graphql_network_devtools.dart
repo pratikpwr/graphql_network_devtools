@@ -1,16 +1,42 @@
-/// GraphQL Network DevTools Extension
+/// GraphQL Network DevTools.
 ///
-/// A Flutter DevTools extension for inspecting GraphQL network operations.
+/// This package adds a **GraphQL** tab to Flutter DevTools. Add it to
+/// `dev_dependencies`, run your app in debug mode, and open DevTools. You
+/// do not need to change your app code.
 ///
-/// ## DevTools Extension
+/// The library also exposes the pure Dart parser that the DevTools tab
+/// uses. You can use it to read GraphQL operations from any HTTP log:
 ///
-/// This package provides a DevTools extension that displays GraphQL operations
-/// with operation names, request/response data, filtering, and search.
-///
-/// The extension uses HTTP profiling to automatically capture GraphQL requests
-/// without requiring any code changes in your app.
+/// ```dart
+/// final operations = parseGraphQLOperations(
+///   HttpTransaction(
+///     id: '1',
+///     method: 'POST',
+///     uri: Uri.parse('https://api.example.com/graphql'),
+///     startTime: DateTime.now(),
+///     requestHeaders: {'content-type': 'application/json'},
+///     requestBody: '{"query": "query GetUser { user { id } }"}',
+///   ),
+/// );
+/// print(operations.single.displayName); // GetUser
+/// ```
 library;
 
-// Main extension exports
-export 'src/graphql_extension.dart';
-export 'src/models/graphql_operation.dart';
+export 'src/curl.dart' show toCurlCommand;
+export 'src/graphql_document.dart'
+    show
+        GraphQLOperationSignature,
+        findOperation,
+        formatGraphQL,
+        listOperations;
+export 'src/graphql_lexer.dart'
+    show GraphQLToken, GraphQLTokenKind, tokenizeGraphQL;
+export 'src/graphql_operation.dart'
+    show
+        GraphQLError,
+        GraphQLOperation,
+        GraphQLOperationStatus,
+        GraphQLOperationType;
+export 'src/graphql_request_parser.dart'
+    show mightBeGraphQL, parseGraphQLOperations;
+export 'src/http_transaction.dart' show HttpTransaction;
